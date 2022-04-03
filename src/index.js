@@ -1,14 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './components/app/app';
-import {store} from './store/store';
 import {Provider} from 'react-redux';
-import {getToken, getOrganizations} from './store/userSlice';
-import {USER} from './const';
+import {store} from './store/store';
+import {
+  getUsers,
+  getOrganizations,
+  getUsersRoles
+} from './store/userSlice';
+import {Users} from './mock/users';
+import {Organizations} from './mock/organizations';
+import {USER_ROLE} from './const';
+import App from './components/app/app';
 
-store.dispatch(getToken(USER));
-store.dispatch(getOrganizations());
+store.dispatch(getUsers(Users));
+store.dispatch(getOrganizations(Organizations));
+store.dispatch(getUsersRoles(USER_ROLE));
 
 ReactDOM.render(
   <React.StrictMode>

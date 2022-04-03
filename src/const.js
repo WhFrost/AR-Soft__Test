@@ -1,13 +1,20 @@
-export const BACKEND_URL = 'http://23.111.202.224:8093';
-export const REQUEST_TIMEOUT = 5000;
+export const USER_ROLE = [
+  {
+    name: 'User',
+    value: 'ROLE_USER'
+  },
+  {
+    name: 'SuperUser',
+    value: 'ROLE_SUPERUSER'
+  },
+  {
+    name: 'Admin',
+    value: 'ROLE_ADMIN'
+  }
+];
 
-export const APIRoute = {
-  Login: '/auth/login',
-  Organizations: '/organization',
-  Users: '/account/api'
-};
-
-export const USER = {
-  email: 'superuser',
-  password: 'superuser'
+export const USER_ROLE_TRANSLATE = {
+  'ROLE_USER': 'Пользователь',
+  'ROLE_SUPERUSER': 'Суперпользователь',
+  'ROLE_ADMIN': 'Администратор'
 };

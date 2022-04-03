@@ -1,0 +1,37 @@
+.users-panel__list {
+  display: grid;
+}
+.users-panel__item {
+  display: grid;
+  align-items: center;
+
+  grid-template-columns: repeat(8, 1fr);
+  justify-items: center;
+}
+
+.users-panel__column-title {
+  display: block;
+  padding: 10px;
+
+  &:first-child {
+    grid-column: 2/3;
+  }
+}
+
+.users-panel__user-name:disabled,
+.users-panel__user-lastname:disabled,
+.users-panel__user-email:disabled,
+.users-panel__user-role:disabled {
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 19px;
+  color: black;
+
+  background-color: transparent;
+  border: none;
+}
+
+.users-panel__update-wrapper {
+  grid-column: span 2;
+  justify-self: end;
+}

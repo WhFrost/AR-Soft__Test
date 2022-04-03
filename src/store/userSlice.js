@@ -4,6 +4,7 @@ const initialState = {
   users: [],
   organizations: [],
   usersRoles: [],
+  currentUser: {}
 };
 
 export const userSlice = createSlice({
@@ -19,6 +20,12 @@ export const userSlice = createSlice({
     getUsersRoles: (state, action) => {
       state.usersRoles = action.payload;
     },
+    getCurrentUser: (state, action) => {
+      state.currentUser = state.users.find((user) => user.id === action.payload);
+    },
+    resetCurrentUser: (state) => {
+      state.currentUser = initialState.currentUser;
+    },
     updateUser: (state, action) => {
       state.users = state.users.find((user) => user.id === action.payload.id);
     },
@@ -31,11 +38,14 @@ export const userSlice = createSlice({
 export const selectUsers = (state) => state.user.users;
 export const selectOrganizations = (state) => state.user.organizations;
 export const selectUsersRoles = (state) => state.user.usersRoles;
+export const selectCurrentUser = (state) => state.user.currentUser;
 
 export const {
   getUsers,
   getOrganizations,
   getUsersRoles,
+  getCurrentUser,
+  resetCurrentUser,
   updateUser,
   addUser,
 } = userSlice.actions;

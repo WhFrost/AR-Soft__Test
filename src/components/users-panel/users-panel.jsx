@@ -3,9 +3,12 @@ import React, {useState} from 'react';
 import globalStyles from '../app/app.module.scss';
 import styles from './users-panel.module.scss';
 import {nanoid} from 'nanoid';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {
   selectUsers,
+  selectCurrentUser,
+  getCurrentUser,
+  resetCurrentUser
 } from '../../store/userSlice';
 import {USER_ROLE_TRANSLATE} from '../../const';
 import Button from '../button/button';
@@ -13,16 +16,19 @@ import UserEditForm from '../user-edit-form/user-edit-form';
 
 function UsersPanel () {
   const users = useSelector(selectUsers);
-
+  const currentUser = useSelector(selectCurrentUser);
+  const dispatch = useDispatch();
   const [isEditionMode, setEditionMode] = useState(false);
 
   const editClickHandler = (evt) => {
     evt.preventDefault();
+    dispatch(getCurrentUser(Number(evt.target.id)));
     setEditionMode(true);
   };
 
   const submitUpdateUserHandler = () => {
     setEditionMode(false);
+    dispatch(resetCurrentUser());
   };
 
   return (
@@ -47,7 +53,7 @@ function UsersPanel () {
                     {index + 1}
                   </span>
                   {
-                    isEditionMode
+                    isEditionMode && currentUser.id === id
                       ?
                       <UserEditForm id={id} />
                       :
@@ -75,7 +81,7 @@ function UsersPanel () {
                   </span>
 
                   {
-                    isEditionMode
+                    isEditionMode && currentUser.id === id
                       ?
                       <div className={styles['users-panel__update-wrapper']}>
                         <Button

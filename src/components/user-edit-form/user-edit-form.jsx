@@ -13,20 +13,17 @@ import {
 import {USER_ROLE_TRANSLATE} from '../../const';
 
 function UserEditForm(props) {
-  const {id} = props;
+  const {id, index} = props;
 
   const users = useSelector(selectUsers);
   const availablesRoles = useSelector(selectUsersRoles);
   const currentUser = users.find((item) => item.id === id);
-  const {email, roles, user} = currentUser;
+  const {email, roles, user, organization} = currentUser;
 
   const [currentUserName, setCurrentUserName] = useState(user.name);
   const [currentUserLastName, setCurrentUserLastName] = useState(user.lastName);
   const [currentUserEmail, setCurrentUserEmail] = useState(email);
   const [currentUserRoles, setCurrentUserRoles] = useState(roles);
-
-  // eslint-disable-next-line no-console
-  console.log(roles);
 
   const onChangeNameHandler = (evt) => {
     setCurrentUserName(evt.target.value);
@@ -43,6 +40,9 @@ function UserEditForm(props) {
 
   return (
     <>
+      <span className={styles['users-panel__user-number']}>
+        {index + 1}
+      </span>
       <input
         type="text"
         id={id}
@@ -81,12 +81,16 @@ function UserEditForm(props) {
           ))
         }
       </select>
+      <span>
+        {organization.companyTitle}
+      </span>
     </>
   );
 }
 
 UserEditForm.propTypes = {
-  id: PropTypes.number
+  id: PropTypes.number,
+  index: PropTypes.number
 };
 
 export default UserEditForm;

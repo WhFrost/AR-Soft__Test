@@ -49,15 +49,16 @@ function UsersPanel () {
 
               return (
                 <li key={nanoid()} className={styles['users-panel__item']}>
-                  <span className={styles['users-panel__user-number']}>
-                    {index + 1}
-                  </span>
+
                   {
                     isEditionMode && currentUser.id === id
                       ?
-                      <UserEditForm id={id} />
+                      <UserEditForm id={id} index={index} />
                       :
                       <>
+                        <span className={styles['users-panel__user-number']}>
+                          {index + 1}
+                        </span>
                         <span className={styles['users-panel__user-number']}>
                           {user.name}
                         </span>
@@ -74,12 +75,11 @@ function UsersPanel () {
                               : USER_ROLE_TRANSLATE['ROLE_USER']
                           }
                         </span>
+                        <span>
+                          {organization.companyTitle}
+                        </span>
                       </>
                   }
-                  <span>
-                    {organization.companyTitle}
-                  </span>
-
                   {
                     isEditionMode && currentUser.id === id
                       ?
@@ -92,7 +92,7 @@ function UsersPanel () {
                       :
                       <>
                         <Button
-                          text='Скачать пользователя'
+                          text='Скачать изображения пользователя'
                           modificator='download'
                           isVisuallyText={false}
                           id={id}

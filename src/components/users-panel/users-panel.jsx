@@ -7,6 +7,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {
   selectUsers,
   setEditableUserId,
+  deleteUser,
   selectEditableUserId,
   selectEditionMode,
 } from '../../store/userSlice';
@@ -23,6 +24,10 @@ function UsersPanel () {
   const editClickHandler = (evt) => {
     evt.preventDefault();
     dispatch(setEditableUserId(Number(evt.target.id)));
+  };
+  const deleteClickHandler = (evt) => {
+    evt.preventDefault();
+    dispatch(deleteUser(Number(evt.target.id)));
   };
 
   return (
@@ -92,7 +97,7 @@ function UsersPanel () {
                             modificator='delete'
                             isVisuallyText={false}
                             id={id}
-                            onClick={() => {}}
+                            onClick={deleteClickHandler}
                           />
                         </div>
                       </>

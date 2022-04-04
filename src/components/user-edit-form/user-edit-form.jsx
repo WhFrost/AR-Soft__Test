@@ -22,7 +22,6 @@ function UserEditForm(props) {
 
   const dispatch = useDispatch();
 
-
   const [currentUserName, setCurrentUserName] = useState(user.name);
   const [currentUserLastName, setCurrentUserLastName] = useState(user.lastName);
   const [currentUserEmail, setCurrentUserEmail] = useState(email);
@@ -38,19 +37,12 @@ function UserEditForm(props) {
     setCurrentUserEmail(evt.target.value);
   };
   const onChangeRoleslHandler = (evt) => {
-    setCurrentUserRoles(evt.target.value);
+    // eslint-disable-next-line no-console
+    console.log(evt.target.value);
+    setCurrentUserRoles();
   };
 
   const submitUpdateUserHandler = () => {
-    // eslint-disable-next-line no-console
-    console.log({
-      ...currentUser,
-      email: currentUserEmail,
-      user: {
-        name: currentUserName,
-        lastName: currentUserLastName,
-      }
-    });
     dispatch(updateUser(
       {
         ...currentUser,
@@ -73,6 +65,7 @@ function UserEditForm(props) {
         type="text"
         id={id}
         className={styles['users-panel__user-name']}
+        autoFocus
         value={currentUserName}
         onChange={onChangeNameHandler}
       />
@@ -93,12 +86,12 @@ function UserEditForm(props) {
       <select
         type="select"
         id={id}
+        multiple
         className={styles['users-panel__user-organizations']}
-        value={
-          currentUserRoles.some((role) => role.name === 'ROLE_ADMIN')
-            ? USER_ROLE_TRANSLATE['ROLE_ADMIN']
-            : USER_ROLE_TRANSLATE['ROLE_USER']
-        }
+        value={currentUserRoles}
+        // currentUserRoles.some((role) => role.name === 'ROLE_ADMIN')
+        //   ? USER_ROLE_TRANSLATE['ROLE_ADMIN']
+        //   : USER_ROLE_TRANSLATE['ROLE_USER']
         onChange={onChangeRoleslHandler}
       >
         {

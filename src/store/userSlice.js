@@ -32,6 +32,9 @@ export const userSlice = createSlice({
     updateUser: (state, action) => {
       state.users.splice(state.users.findIndex((item) => item.id === action.payload.id), 1, action.payload);
     },
+    deleteUser: (state, action) => {
+      state.users.splice(state.users.findIndex((item) => item.id === action.payload.id), 1);
+    },
     addUser: (state, action) => {
       state.users = state.users.push(action.payload);
     }
@@ -51,6 +54,7 @@ export const {
   setEditableUserId,
   resetEditableUserId,
   updateUser,
+  deleteUser,
   addUser,
 } = userSlice.actions;
 

@@ -4,7 +4,8 @@ const initialState = {
   users: [],
   organizations: [],
   usersRoles: [],
-  currentUser: {}
+  editableUserId: null,
+  isEditionMode: false
 };
 
 export const userSlice = createSlice({
@@ -20,14 +21,16 @@ export const userSlice = createSlice({
     getUsersRoles: (state, action) => {
       state.usersRoles = action.payload;
     },
-    getCurrentUser: (state, action) => {
-      state.currentUser = state.users.find((user) => user.id === action.payload);
+    setEditableUserId: (state, action) => {
+      state.editableUserId = action.payload;
+      state.isEditionMode = true;
     },
-    resetCurrentUser: (state) => {
-      state.currentUser = initialState.currentUser;
+    resetEditableUserId: (state) => {
+      state.editableUserId = initialState.editableUserId;
+      state.isEditionMode = false;
     },
     updateUser: (state, action) => {
-      state.users = state.users.find((user) => user.id === action.payload.id);
+      state.users.splice(state.users.findIndex((item) => item.id === action.payload.id), 1, action.payload);
     },
     addUser: (state, action) => {
       state.users = state.users.push(action.payload);
@@ -38,14 +41,15 @@ export const userSlice = createSlice({
 export const selectUsers = (state) => state.user.users;
 export const selectOrganizations = (state) => state.user.organizations;
 export const selectUsersRoles = (state) => state.user.usersRoles;
-export const selectCurrentUser = (state) => state.user.currentUser;
+export const selectEditableUserId = (state) => state.user.editableUserId;
+export const selectEditionMode = (state) => state.user.isEditionMode;
 
 export const {
   getUsers,
   getOrganizations,
   getUsersRoles,
-  getCurrentUser,
-  resetCurrentUser,
+  setEditableUserId,
+  resetEditableUserId,
   updateUser,
   addUser,
 } = userSlice.actions;

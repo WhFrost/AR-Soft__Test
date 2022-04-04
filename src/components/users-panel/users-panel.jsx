@@ -1,14 +1,14 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, {useState} from 'react';
+import React from 'react';
 import globalStyles from '../app/app.module.scss';
 import styles from './users-panel.module.scss';
 import {nanoid} from 'nanoid';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   selectUsers,
-  selectCurrentUser,
-  getCurrentUser,
-  resetCurrentUser
+  setEditableUserId,
+  selectEditableUserId,
+  selectEditionMode,
 } from '../../store/userSlice';
 import {USER_ROLE_TRANSLATE} from '../../const';
 import Button from '../button/button';
@@ -16,19 +16,13 @@ import UserEditForm from '../user-edit-form/user-edit-form';
 
 function UsersPanel () {
   const users = useSelector(selectUsers);
-  const currentUser = useSelector(selectCurrentUser);
+  const editableUserId = useSelector(selectEditableUserId);
+  const isEditionMode = useSelector(selectEditionMode);
   const dispatch = useDispatch();
-  const [isEditionMode, setEditionMode] = useState(false);
 
   const editClickHandler = (evt) => {
     evt.preventDefault();
-    dispatch(getCurrentUser(Number(evt.target.id)));
-    setEditionMode(true);
-  };
-
-  const submitUpdateUserHandler = () => {
-    setEditionMode(false);
-    dispatch(resetCurrentUser());
+    dispatch(setEditableUserId(Number(evt.target.id)));
   };
 
   return (
@@ -51,7 +45,7 @@ function UsersPanel () {
                 <li key={nanoid()} className={styles['users-panel__item']}>
 
                   {
-                    isEditionMode && currentUser.id === id
+                    isEditionMode && editableUserId === id
                       ?
                       <UserEditForm id={id} index={index} />
                       :
@@ -78,19 +72,6 @@ function UsersPanel () {
                         <span>
                           {organization.companyTitle}
                         </span>
-                      </>
-                  }
-                  {
-                    isEditionMode && currentUser.id === id
-                      ?
-                      <div className={styles['users-panel__update-wrapper']}>
-                        <Button
-                          text='Обновить'
-                          onClick={submitUpdateUserHandler}
-                        />
-                      </div>
-                      :
-                      <>
                         <Button
                           text='Скачать изображения пользователя'
                           modificator='download'

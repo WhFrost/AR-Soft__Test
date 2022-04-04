@@ -2,15 +2,15 @@ import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import {nanoid} from 'nanoid';
 import styles from './user-edit-form.module.scss';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {
   selectUsers,
   selectUsersRoles,
-  // selectCurrentUser,
-  // getCurrentUser,
-  // resetCurrentUser
+  resetEditableUserId,
+  updateUser
 } from '../../store/userSlice';
 import {USER_ROLE_TRANSLATE} from '../../const';
+import Button from '../button/button';
 
 function UserEditForm(props) {
   const {id, index} = props;
@@ -19,6 +19,9 @@ function UserEditForm(props) {
   const availablesRoles = useSelector(selectUsersRoles);
   const currentUser = users.find((item) => item.id === id);
   const {email, roles, user, organization} = currentUser;
+
+  const dispatch = useDispatch();
+
 
   const [currentUserName, setCurrentUserName] = useState(user.name);
   const [currentUserLastName, setCurrentUserLastName] = useState(user.lastName);
@@ -36,6 +39,29 @@ function UserEditForm(props) {
   };
   const onChangeRoleslHandler = (evt) => {
     setCurrentUserRoles(evt.target.value);
+  };
+
+  const submitUpdateUserHandler = () => {
+    // eslint-disable-next-line no-console
+    console.log({
+      ...currentUser,
+      email: currentUserEmail,
+      user: {
+        name: currentUserName,
+        lastName: currentUserLastName,
+      }
+    });
+    dispatch(updateUser(
+      {
+        ...currentUser,
+        email: currentUserEmail,
+        user: {
+          name: currentUserName,
+          lastName: currentUserLastName,
+        }
+      }
+    ));
+    dispatch(resetEditableUserId());
   };
 
   return (
@@ -84,6 +110,12 @@ function UserEditForm(props) {
       <span>
         {organization.companyTitle}
       </span>
+      <div className={styles['users-panel__update-wrapper']}>
+        <Button
+          text='Обновить'
+          onClick={submitUpdateUserHandler}
+        />
+      </div>
     </>
   );
 }

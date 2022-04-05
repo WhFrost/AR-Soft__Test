@@ -26,7 +26,7 @@ Button.propTypes = {
   text: PropTypes.string,
   isVisuallyText: PropTypes.bool,
   modificator: PropTypes.string,
-  id: PropTypes.string,
+  id: PropTypes.number,
   onClick: PropTypes.func,
 };
 

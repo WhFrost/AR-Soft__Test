@@ -1,10 +1,10 @@
 export const Users = [
   {
-    id: '1',
+    id: 1,
     email: 'admin',
     active: true,
     user: {
-      id: '1',
+      id: 1,
       name: 'lupa',
       lastName: 'pupa',
       birthDate: '2000-08-19T09:20:51.071'
@@ -23,11 +23,11 @@ export const Users = [
     }
   },
   {
-    id: '2',
+    id: 2,
     email: 'user',
     active: true,
     user: {
-      id: '2',
+      id: 2,
       name: 'lupa',
       lastName: 'pupa',
       birthDate: '2000-08-19T09:20:51.071'
@@ -46,11 +46,11 @@ export const Users = [
     }
   },
   {
-    id: '3',
+    id: 3,
     email: 'third',
     active: true,
     user: {
-      id: '3',
+      id: 3,
       name: 'third',
       lastName: 'third',
       birthDate: '2000-08-19T09:20:51.071'
@@ -69,11 +69,11 @@ export const Users = [
     }
   },
   {
-    id: '4',
+    id: 4,
     email: 'fourth',
     active: true,
     user: {
-      id: '4',
+      id: 4,
       name: 'fourth',
       lastName: 'fourth',
       birthDate: '2000-08-19T09:20:51.071'
@@ -92,11 +92,11 @@ export const Users = [
     }
   },
   {
-    id: '5',
+    id: 5,
     email: 'five',
     active: true,
     user: {
-      id: '5',
+      id: 5,
       name: 'five',
       lastName: 'five',
       birthDate: '2000-08-19T09:20:51.071'

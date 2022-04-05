@@ -46,6 +46,13 @@
 
   background-color: white;
   border: 1px solid black;
+
+  &--role-error,
+  &--organization-error {
+    color: red;
+
+    border-color: red;
+  }
 }
 
 .add-user-popup__buttons {

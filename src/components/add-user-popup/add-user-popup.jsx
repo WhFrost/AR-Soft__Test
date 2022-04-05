@@ -4,6 +4,7 @@ import globalStyles from '../app/app.module.scss';
 import styles from './add-user-popup.module.scss';
 import {useSelector, useDispatch} from 'react-redux';
 import {
+  selectUsers,
   selectUsersRoles,
   selectOrganizations,
   addUser,
@@ -13,12 +14,13 @@ import {USER_ROLE_TRANSLATE} from '../../const';
 import Button from '../button/button';
 
 function AddUserPopup() {
+  const users = useSelector(selectUsers);
   const availablesRoles = useSelector(selectUsersRoles);
   const availablesOrganizations = useSelector(selectOrganizations);
 
   const dispatch = useDispatch();
 
-  const userId = nanoid();
+  const userId = users.length + 1;
   const [userName, setUserName] = useState(null);
   const [userLastName, setUserLastName] = useState(null);
   const [userEmail, setUserEmail] = useState(null);
@@ -27,9 +29,11 @@ function AddUserPopup() {
   const [userOrganization, setUserOrganization] = useState('default');
   const [userBirthday, setUserBirthday] = useState(null);
 
-  const [inputError, setInputError] = useState(false);
+  const [inputRoleError, setInputRoleError] = useState(false);
+  const [inputOrganizanionError, setInputOrganizationError] = useState(false);
 
-  const errorClassName = inputError ? 'input-error' : '';
+  const errorRoleInputClassName = inputRoleError ? `${styles['add-user-popup__input--role-error']}` : '';
+  const errorOrganizationInputClassName = inputOrganizanionError ? `${styles['add-user-popup__input--organization-error']}` : '';
 
   const onChangeNameHandler = (evt) => {
     setUserName(evt.target.value);
@@ -56,8 +60,17 @@ function AddUserPopup() {
     dispatch(closeAllPopups());
   };
   const onSubmitClickHandler = () => {
-    setInputError(!userName);
-    if (userName!== null) {
+    setInputRoleError(userRole === null || userRole === 'default');
+    setInputOrganizationError(userOrganization === null || userOrganization === 'default');
+    if (
+      userName !== null &&
+      userLastName !== null &&
+      userEmail !== null &&
+      userPassword !== null &&
+      (userRole !== null && userRole !== 'default') &&
+      (userOrganization !== null && userOrganization !== 'default') &&
+      userBirthday !== null
+    ) {
       const newUser = {
         id: userId,
         email: userEmail,
@@ -88,7 +101,7 @@ function AddUserPopup() {
         <h3 className={`${globalStyles['title']} ${styles['add-user-popup__title']}`}>
           Создание пользователя
         </h3>
-        <section>
+        <form action='#' onSubmit={onSubmitClickHandler}>
           <fieldset className={styles['add-user-popup__field-group']}>
             <label htmlFor="name" className={styles['add-user-popup__label']}>
             Имя:
@@ -96,7 +109,7 @@ function AddUserPopup() {
             <input
               type="text"
               id='name'
-              className={`${styles['add-user-popup__input']}`}
+              className={styles['add-user-popup__input']}
               autoFocus
               placeholder='Введите имя'
               required
@@ -148,7 +161,7 @@ function AddUserPopup() {
             </label>
             <select
               id='role'
-              className={styles['add-user-popup__input']}
+              className={`${styles['add-user-popup__input']} ${errorRoleInputClassName}`}
               value={userRole}
               required
               onChange={onChangeRoleHandler}
@@ -172,7 +185,7 @@ function AddUserPopup() {
             </label>
             <select
               id='organizations'
-              className={styles['add-user-popup__input']}
+              className={`${styles['add-user-popup__input']} ${errorOrganizationInputClassName}`}
               value={userOrganization}
               required
               onChange={onChangeOrganizationHandler}
@@ -214,7 +227,7 @@ function AddUserPopup() {
               onClick={onSubmitClickHandler}
             />
           </div>
-        </section>
+        </form>
       </div>
     </section>
   );

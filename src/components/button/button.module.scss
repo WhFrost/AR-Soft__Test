@@ -8,8 +8,16 @@
 
   background-color: #0044ff;
   border: none;
-  border-radius: 2px;
+  border-radius: 4px;
   cursor: pointer;
+  opacity: 0.8;
+
+  &:hover {
+    opacity: 1;
+  }
+  &:active {
+    opacity: 0.5;
+  }
 
   &--download {
     width: 28px;
@@ -21,10 +29,19 @@
     background-size: cover;
     border: none;
     cursor: pointer;
+    opacity: 0.8;
+
+    &:hover {
+      opacity: 1;
+    }
+    &:active {
+      opacity: 0.5;
+    }
   }
   &--edit {
     width: 28px;
     height: 28px;
+    margin-right: 12px;
 
     background-color: transparent;
     background-image: url('../../assets/img/edit.png');
@@ -32,6 +49,14 @@
     background-size: cover;
     border: none;
     cursor: pointer;
+    opacity: 0.8;
+
+    &:hover {
+      opacity: 1;
+    }
+    &:active {
+      opacity: 0.5;
+    }
   }
   &--delete {
     width: 28px;
@@ -43,5 +68,36 @@
     background-size: cover;
     border: none;
     cursor: pointer;
+    opacity: 0.8;
+
+    &:hover {
+      opacity: 1;
+    }
+    &:active {
+      opacity: 0.5;
+    }
+  }
+
+  &--update {
+    padding-right: 25px;
+    padding-left: 25px;
+
+    opacity: 0.8;
+
+    &:hover {
+      opacity: 1;
+    }
+    &:active {
+      opacity: 0.5;
+    }
+  }
+
+  &--add-user {
+    align-self: flex-end;
+  }
+
+  &--close-popup {
+    padding-right: 30px;
+    padding-left: 30px;
   }
 }

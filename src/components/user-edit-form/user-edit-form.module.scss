@@ -1,0 +1,28 @@
+.user-edit-form__input {
+  width: 120px;
+  padding: 5px;
+
+  font-weight: normal;
+  font-size: 14px;
+  font-family: 'Roboto', 'Arial', sans-serif;
+  text-align: center;
+  color: black;
+  font-style: normal;
+
+  border: 1px solid #0044ff;
+  border-radius: 4px;
+
+  &--role {
+    width: 165px;
+  };
+}
+
+
+.user-edit-form__update-wrapper {
+  grid-column: span 2;
+  justify-self: end;
+}
+
+.user-edit-form__user-content {
+  margin: 0;
+}

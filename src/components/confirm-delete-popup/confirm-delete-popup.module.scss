@@ -1,0 +1,25 @@
+.confirm-delete-popup {
+  position: fixed;
+  top: 33%;
+  right: 33%;
+  left: 33%;
+  z-index: 10;
+
+  width: 520px;
+
+  background-color: lightgrey;
+  border: 2px solid grey;
+}
+
+.confirm-delete-popup__wrapper {
+  padding: 30px;
+}
+
+.confirm-delete-popup__title {
+  margin-bottom: 35px;
+}
+
+.confirm-delete-popup__buttons {
+  display: flex;
+  justify-content: space-around;
+}

@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react';
+import React, {useEffect} from 'react';
 import globalStyles from '../app/app.module.scss';
 import styles from './users-panel.module.scss';
 import {nanoid} from 'nanoid';
@@ -7,9 +7,11 @@ import {useSelector, useDispatch} from 'react-redux';
 import {
   selectUsers,
   setEditableUserId,
-  deleteUser,
+  confirmDeletePopup,
   selectEditableUserId,
   selectEditionMode,
+  showAddUserPopup,
+  closeAllPopups
 } from '../../store/userSlice';
 import {USER_ROLE_TRANSLATE} from '../../const';
 import Button from '../button/button';
@@ -21,14 +23,29 @@ function UsersPanel () {
   const isEditionMode = useSelector(selectEditionMode);
   const dispatch = useDispatch();
 
-  const editClickHandler = (evt) => {
+  const onEditClickHandler = (evt) => {
     evt.preventDefault();
     dispatch(setEditableUserId(Number(evt.target.id)));
   };
-  const deleteClickHandler = (evt) => {
+  const onDeleteClickHandler = (evt) => {
     evt.preventDefault();
-    dispatch(deleteUser(Number(evt.target.id)));
+    dispatch(confirmDeletePopup(Number(evt.target.id)));
   };
+  const onAddUserClickHandler = () => {
+    dispatch(showAddUserPopup(true));
+  };
+
+  useEffect(() => {
+    const onPressEsc = (evt) => {
+      if (evt.key === 'esc' || evt.key === 'Escape') {
+        dispatch(closeAllPopups());
+      }
+    };
+    window.addEventListener('keydown', onPressEsc);
+    return () => {
+      window.removeEventListener('keydown', onPressEsc);
+    };
+  });
 
   return (
     <section className={styles['users-panel']}>
@@ -38,13 +55,13 @@ function UsersPanel () {
             <a href='#' className={`${globalStyles['link']} ${styles['users-panel__column-title']}`}>Имя</a>
             <a href='#' className={`${globalStyles['link']} ${styles['users-panel__column-title']}`}>Фамилия</a>
             <a href='#' className={`${globalStyles['link']} ${styles['users-panel__column-title']}`}>E-mail</a>
-            <a href='#' className={`${globalStyles['link']} ${styles['users-panel__olumn-title']}`}>Роль</a>
+            <a href='#' className={`${globalStyles['link']} ${styles['users-panel__column-title']}`}>Роль</a>
             <a href='#' className={`${globalStyles['link']} ${styles['users-panel__column-title']}`}>Организация</a>
             <a href='#' className={`${globalStyles['link']} ${styles['users-panel__column-title']}`}>Изображения</a>
           </li>
           {
             users.map((item, index) => {
-              const {id, email, user, roles, organization} = item;
+              const {id, email, user, role, organization} = item;
 
               return (
                 <li key={nanoid()} className={styles['users-panel__item']}>
@@ -55,49 +72,47 @@ function UsersPanel () {
                       <UserEditForm id={id} index={index} />
                       :
                       <>
-                        <span className={styles['users-panel__user-number']}>
+                        <p className={styles['users-panel__user-content']}>
                           {index + 1}
-                        </span>
-                        <span className={styles['users-panel__user-number']}>
+                        </p>
+                        <p className={styles['users-panel__user-content']}>
                           {user.name}
-                        </span>
-                        <span className={styles['users-panel__user-number']}>
+                        </p>
+                        <p className={styles['users-panel__user-content']}>
                           {user.lastName}
-                        </span>
-                        <span className={styles['users-panel__user-number']}>
+                        </p>
+                        <p className={styles['users-panel__user-content']}>
                           {email}
-                        </span>
-                        <span className={styles['users-panel__user-number']}>
-                          {
-                            roles.some((role) => role.name === 'ROLE_ADMIN')
-                              ? USER_ROLE_TRANSLATE['ROLE_ADMIN']
-                              : USER_ROLE_TRANSLATE['ROLE_USER']
-                          }
-                        </span>
-                        <span>
+                        </p>
+                        <p className={styles['users-panel__user-content']}>
+                          {USER_ROLE_TRANSLATE[role.name]}
+                        </p>
+                        <p className={styles['users-panel__user-content']}>
                           {organization.companyTitle}
-                        </span>
-                        <Button
-                          text='Скачать изображения пользователя'
-                          modificator='download'
-                          isVisuallyText={false}
-                          id={id}
-                          onClick={() => {}}
-                        />
-                        <div>
+                        </p>
+                        <div className={styles['users-panel__download-wrapper']}>
+                          <Button
+                            text='Скачать изображения пользователя'
+                            modificator='download'
+                            isVisuallyText={false}
+                            id={id}
+                            onClick={() => {}}
+                          />
+                        </div>
+                        <div className={styles['users-panel__edit-wrapper']}>
                           <Button
                             text='Редактировать пользователя'
                             modificator='edit'
                             isVisuallyText={false}
                             id={id}
-                            onClick={editClickHandler}
+                            onClick={onEditClickHandler}
                           />
                           <Button
                             text='Удалить пользователя'
                             modificator='delete'
                             isVisuallyText={false}
                             id={id}
-                            onClick={deleteClickHandler}
+                            onClick={onDeleteClickHandler}
                           />
                         </div>
                       </>
@@ -107,6 +122,11 @@ function UsersPanel () {
             })
           }
         </ul>
+        <Button
+          text={'Создать пользователя'}
+          modificator={'add-user'}
+          onClick={onAddUserClickHandler}
+        />
       </div>
     </section>
   );

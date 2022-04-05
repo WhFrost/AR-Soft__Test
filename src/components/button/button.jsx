@@ -8,7 +8,7 @@ function Button(props) {
     text,
     isVisuallyText = true,
     modificator,
-    id,
+    id = null,
     onClick
   } = props;
   return (
@@ -26,7 +26,7 @@ Button.propTypes = {
   text: PropTypes.string,
   isVisuallyText: PropTypes.bool,
   modificator: PropTypes.string,
-  id: PropTypes.number,
+  id: PropTypes.string,
   onClick: PropTypes.func,
 };
 

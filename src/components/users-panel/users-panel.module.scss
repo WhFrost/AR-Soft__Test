@@ -1,36 +1,59 @@
+.users-panel {
+  margin-bottom: 40px;
+}
+
+.users-panel__wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
 .users-panel__list {
   display: grid;
+  margin-bottom: 25px;
 }
 .users-panel__item {
   display: grid;
   align-items: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+  border-bottom: 1px solid black;
 
   grid-template-columns: repeat(8, 1fr);
   justify-items: center;
+
+  &:first-child {
+    border-bottom: 2px solid black;
+  }
+
+  &:not(:last-child) {
+    margin-bottom: 10px;
+  }
 }
 
 .users-panel__column-title {
   display: block;
-  padding: 10px;
 
   &:first-child {
     grid-column: 2/3;
   }
+
+  &:hover {
+    font-weight: 500;
+  }
+  &:active {
+    opacity: 0.5;
+  }
 }
 
-.users-panel__user-name:disabled,
-.users-panel__user-lastname:disabled,
-.users-panel__user-email:disabled,
-.users-panel__user-role:disabled {
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 19px;
-  color: black;
-
-  background-color: transparent;
-  border: none;
+.users-panel__user-content {
+  margin: 0;
 }
 
-.users-panel__update-wrapper {
-  grid-column: span 2;
+.users-panel__download-wrapper {
+  justify-self: center;
+}
+
+.users-panel__edit-wrapper {
+  justify-self: end;
 }

@@ -18,14 +18,14 @@ function UserEditForm(props) {
   const users = useSelector(selectUsers);
   const availablesRoles = useSelector(selectUsersRoles);
   const currentUser = users.find((item) => item.id === id);
-  const {email, roles, user, organization} = currentUser;
+  const {email, role, user, organization} = currentUser;
 
   const dispatch = useDispatch();
 
   const [currentUserName, setCurrentUserName] = useState(user.name);
   const [currentUserLastName, setCurrentUserLastName] = useState(user.lastName);
   const [currentUserEmail, setCurrentUserEmail] = useState(email);
-  const [currentUserRoles, setCurrentUserRoles] = useState(roles);
+  const [currentUserRole, setCurrentUserRole] = useState(role.name);
 
   const onChangeNameHandler = (evt) => {
     setCurrentUserName(evt.target.value);
@@ -36,20 +36,21 @@ function UserEditForm(props) {
   const onChangeEmailHandler = (evt) => {
     setCurrentUserEmail(evt.target.value);
   };
-  const onChangeRoleslHandler = (evt) => {
-    // eslint-disable-next-line no-console
-    console.log(evt.target.value);
-    setCurrentUserRoles();
+  const onChangeRolelHandler = (evt) => {
+    setCurrentUserRole(evt.target.value);
   };
-
   const submitUpdateUserHandler = () => {
     dispatch(updateUser(
       {
         ...currentUser,
         email: currentUserEmail,
         user: {
+          ...currentUser.user,
           name: currentUserName,
           lastName: currentUserLastName,
+        },
+        role: {
+          name: currentUserRole
         }
       }
     ));
@@ -58,13 +59,13 @@ function UserEditForm(props) {
 
   return (
     <>
-      <span className={styles['users-panel__user-number']}>
+      <p className={styles['user-edit-form__user-content']}>
         {index + 1}
-      </span>
+      </p>
       <input
         type="text"
         id={id}
-        className={styles['users-panel__user-name']}
+        className={`${styles['user-edit-form__input']} ${styles['user-edit-form__input--name']}`}
         autoFocus
         value={currentUserName}
         onChange={onChangeNameHandler}
@@ -72,40 +73,42 @@ function UserEditForm(props) {
       <input
         type="text"
         id={id}
-        className={styles['users-panel__user-lastname']}
+        className={`${styles['user-edit-form__input']} ${styles['user-edit-form__input--lastname']}`}
         value={currentUserLastName}
         onChange={onChangeLastNameHandler}
       />
       <input
         type="email"
         id={id}
-        className={styles['users-panel__user-email']}
+        className={`${styles['user-edit-form__input']} ${styles['user-edit-form__input--email']}`}
         value={currentUserEmail}
         onChange={onChangeEmailHandler}
       />
       <select
         type="select"
         id={id}
-        multiple
-        className={styles['users-panel__user-organizations']}
-        value={currentUserRoles}
-        // currentUserRoles.some((role) => role.name === 'ROLE_ADMIN')
-        //   ? USER_ROLE_TRANSLATE['ROLE_ADMIN']
-        //   : USER_ROLE_TRANSLATE['ROLE_USER']
-        onChange={onChangeRoleslHandler}
+        className={`${styles['user-edit-form__input']} ${styles['user-edit-form__input--role']}`}
+        value={currentUserRole}
+        onChange={onChangeRolelHandler}
       >
         {
-          availablesRoles.map((role) => (
-            <option key={nanoid()} value={role.value}>{USER_ROLE_TRANSLATE[role.value]}</option>
+          availablesRoles.map((item) => (
+            <option
+              key={nanoid()}
+              value={item.value}
+            >
+              {USER_ROLE_TRANSLATE[item.value]}
+            </option>
           ))
         }
       </select>
-      <span>
+      <p>
         {organization.companyTitle}
-      </span>
-      <div className={styles['users-panel__update-wrapper']}>
+      </p>
+      <div className={styles['user-edit-form__update-wrapper']}>
         <Button
           text='Обновить'
+          modificator={'update'}
           onClick={submitUpdateUserHandler}
         />
       </div>

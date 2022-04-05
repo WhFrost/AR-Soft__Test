@@ -27,6 +27,10 @@ function AddUserPopup() {
   const [userOrganization, setUserOrganization] = useState('default');
   const [userBirthday, setUserBirthday] = useState(null);
 
+  const [inputError, setInputError] = useState(false);
+
+  const errorClassName = inputError ? 'input-error' : '';
+
   const onChangeNameHandler = (evt) => {
     setUserName(evt.target.value);
   };
@@ -52,27 +56,30 @@ function AddUserPopup() {
     dispatch(closeAllPopups());
   };
   const onSubmitClickHandler = () => {
-    const newUser = {
-      id: userId,
-      email: userEmail,
-      active: true,
-      user: {
+    setInputError(!userName);
+    if (userName!== null) {
+      const newUser = {
         id: userId,
-        name: userName,
-        lastName: userLastName,
-        password: userPassword,
-        birthday: userBirthday
-      },
-      role: {
-        name: userRole
-      },
-      organization: {
-        companyTitle: userOrganization,
-        isBlocked: false,
-        blocked: false
-      }
-    };
-    dispatch(addUser(newUser));
+        email: userEmail,
+        active: true,
+        user: {
+          id: userId,
+          name: userName,
+          lastName: userLastName,
+          password: userPassword,
+          birthday: userBirthday
+        },
+        role: {
+          name: userRole
+        },
+        organization: {
+          companyTitle: userOrganization,
+          isBlocked: false,
+          blocked: false
+        }
+      };
+      dispatch(addUser(newUser));
+    }
   };
 
   return (
@@ -89,7 +96,7 @@ function AddUserPopup() {
             <input
               type="text"
               id='name'
-              className={styles['add-user-popup__input']}
+              className={`${styles['add-user-popup__input']}`}
               autoFocus
               placeholder='Введите имя'
               required

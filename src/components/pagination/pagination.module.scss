@@ -15,14 +15,23 @@
   padding-left: 8px;
 
   line-height: 15px;
-  color: white;
+  color: black;
 
-  background-color: #0044ff;
   border: 1px solid black;
   border-radius: 4px;
   opacity: 0.8;
 
+  &--active {
+    color: white;
+
+    background-color: #0044ff;
+  }
+
   &:hover {
+    color: #0044ff;
+
+    background-color: rgba(0, 68, 255, 0.1);
+    border-color: #0044ff;
     opacity: 1;
   }
   &:active {

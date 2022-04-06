@@ -59,7 +59,8 @@ function AddUserPopup() {
   const onCloseClickHandler = () => {
     dispatch(closeAllPopups());
   };
-  const onSubmitClickHandler = () => {
+  const onSubmitClickHandler = (evt) => {
+    evt.preventDefault();
     setInputRoleError(userRole === null || userRole === 'default');
     setInputOrganizationError(userOrganization === null || userOrganization === 'default');
     if (
@@ -101,7 +102,7 @@ function AddUserPopup() {
         <h3 className={`${globalStyles['title']} ${styles['add-user-popup__title']}`}>
           Создание пользователя
         </h3>
-        <form>
+        <form onSubmit={onSubmitClickHandler}>
           <fieldset className={styles['add-user-popup__field-group']}>
             <label htmlFor="name" className={styles['add-user-popup__label']}>
             Имя:

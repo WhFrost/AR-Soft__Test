@@ -9,6 +9,8 @@ import {
   setEditableUserId,
   confirmDeletePopup,
   selectEditableUserId,
+  getUserImage,
+  selectUserImage,
   selectEditionMode,
   showAddUserPopup,
   closeAllPopups,
@@ -25,7 +27,11 @@ function UsersPanel () {
   const users = useSelector(selectUsers);
   const editableUserId = useSelector(selectEditableUserId);
   const isEditionMode = useSelector(selectEditionMode);
+  const userImage = useSelector(selectUserImage);
   const sortingType = useSelector(selectSortingType);
+
+  // eslint-disable-next-line no-console
+  console.log(userImage);
 
   const sortedUsers = users.slice().sort(sortingFunc(sortingType));
 
@@ -35,9 +41,11 @@ function UsersPanel () {
   const currentUsers = sortedUsers.slice(firstUserIndex, lastUserIndex);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-
   const dispatch = useDispatch();
 
+  const onDownloadClickHandler = (evt) => {
+    dispatch(getUserImage(Number(evt.target.id)));
+  };
   const onEditClickHandler = (evt) => {
     evt.preventDefault();
     dispatch(setEditableUserId(Number(evt.target.id)));
@@ -122,13 +130,14 @@ function UsersPanel () {
                           {organization.companyTitle}
                         </p>
                         <div className={styles['users-panel__download-wrapper']}>
-                          <Button
-                            text='Скачать изображения пользователя'
-                            modificator='download'
-                            isVisuallyText={false}
+                          <a
+                            href={userImage}
                             id={id}
-                            onClick={() => {}}
-                          />
+                            className={`${globalStyles['link']} ${styles['users-panel__download-link']}`}
+                            download
+                            onClick={onDownloadClickHandler}
+                          >
+                          </a>
                         </div>
                         <div className={styles['users-panel__edit-wrapper']}>
                           <Button
@@ -158,6 +167,7 @@ function UsersPanel () {
             usersPerPage={USERS_PER_PAGE}
             totalUsers={users.length}
             paginate={paginate}
+            currentPage={currentPage}
           />
           <Button
             text={'Создать пользователя'}

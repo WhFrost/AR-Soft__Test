@@ -4,7 +4,9 @@ const initialState = {
   users: [],
   organizations: [],
   usersRoles: [],
+  usersImages: [],
   editableUserId: null,
+  userImage: '',
   isEditionMode: false,
   removableUserId: null,
   isShowConfirmDeletePopup: false,
@@ -25,11 +27,17 @@ export const userSlice = createSlice({
     getUsersRoles: (state, action) => {
       state.usersRoles = action.payload;
     },
+    getUsersImages: (state, action) => {
+      state.usersImages = action.payload;
+    },
     setEditableUserId: (state, action) => {
       state.editableUserId = action.payload;
       state.isEditionMode = true;
       state.isShowConfirmDeletePopup = false;
       state.isShowAddUserPopup = false;
+    },
+    getUserImage: (state, action) => {
+      state.userImage = state.usersImages.find((image) => image.id === action.payload).image;
     },
     resetEditableUserId: (state) => {
       state.editableUserId = initialState.editableUserId;
@@ -70,6 +78,7 @@ export const userSlice = createSlice({
 export const selectUsers = (state) => state.user.users;
 export const selectOrganizations = (state) => state.user.organizations;
 export const selectUsersRoles = (state) => state.user.usersRoles;
+export const selectUserImage = (state) => state.user.userImage;
 export const selectEditableUserId = (state) => state.user.editableUserId;
 export const selectEditionMode = (state) => state.user.isEditionMode;
 export const selectIsShowConfirmDeletePopup = (state) => state.user.isShowConfirmDeletePopup;
@@ -81,7 +90,9 @@ export const {
   getUsers,
   getOrganizations,
   getUsersRoles,
+  getUsersImages,
   setEditableUserId,
+  getUserImage,
   resetEditableUserId,
   updateUser,
   deleteUser,

@@ -6,7 +6,7 @@ import globalStyles from '../app/app.module.scss';
 import styles from './pagination.module.scss';
 
 function Pagination(props) {
-  const {usersPerPage, totalUsers, paginate} = props;
+  const {usersPerPage, totalUsers, paginate, currentPage} = props;
 
   const pagesCount = Math.ceil(totalUsers/usersPerPage);
   const pages = new Array(pagesCount).fill();
@@ -18,7 +18,7 @@ function Pagination(props) {
           <li key={nanoid()} className={styles['pagination__item']}>
             <a
               href="#"
-              className={`${globalStyles['link']} ${styles['pagination__link']}`}
+              className={`${globalStyles['link']} ${styles['pagination__link']} ${currentPage === index + 1 ? styles['pagination__link--active'] : ''}`}
               onClick={() => paginate(index + 1)}
             >
               {index + 1}
@@ -32,7 +32,8 @@ function Pagination(props) {
 Pagination.propTypes = {
   usersPerPage: PropTypes.number,
   totalUsers: PropTypes.number,
-  paginate: PropTypes.func
+  paginate: PropTypes.func,
+  currentPage: PropTypes.number,
 };
 
 export default Pagination;

@@ -101,7 +101,7 @@ function AddUserPopup() {
         <h3 className={`${globalStyles['title']} ${styles['add-user-popup__title']}`}>
           Создание пользователя
         </h3>
-        <form action='#' onSubmit={onSubmitClickHandler}>
+        <form>
           <fieldset className={styles['add-user-popup__field-group']}>
             <label htmlFor="name" className={styles['add-user-popup__label']}>
             Имя:

@@ -1,0 +1,31 @@
+.pagination__list {
+  display: flex;
+}
+
+.pagination__item {
+  &:not(:last-child) {
+    margin-right: 5px;
+  }
+}
+
+.pagination__link {
+  padding-top: 6px;
+  padding-right: 8px;
+  padding-bottom: 6px;
+  padding-left: 8px;
+
+  line-height: 15px;
+  color: white;
+
+  background-color: #0044ff;
+  border: 1px solid black;
+  border-radius: 4px;
+  opacity: 0.8;
+
+  &:hover {
+    opacity: 1;
+  }
+  &:active {
+    opacity: 0.5;
+  }
+}

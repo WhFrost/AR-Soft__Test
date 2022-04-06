@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, {useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import globalStyles from '../app/app.module.scss';
 import styles from './users-panel.module.scss';
 import {nanoid} from 'nanoid';
@@ -15,10 +15,11 @@ import {
   setSortingType,
   selectSortingType,
 } from '../../store/userSlice';
-import {USER_ROLE_TRANSLATE, SORT_TYPE} from '../../const';
+import {USER_ROLE_TRANSLATE, SORT_TYPE, USERS_PER_PAGE} from '../../const';
 import {sortingFunc} from '../../sort';
 import Button from '../button/button';
 import UserEditForm from '../user-edit-form/user-edit-form';
+import Pagination from '../pagination/pagination';
 
 function UsersPanel () {
   const users = useSelector(selectUsers);
@@ -27,6 +28,13 @@ function UsersPanel () {
   const sortingType = useSelector(selectSortingType);
 
   const sortedUsers = users.slice().sort(sortingFunc(sortingType));
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const lastUserIndex = currentPage * USERS_PER_PAGE;
+  const firstUserIndex = lastUserIndex - USERS_PER_PAGE;
+  const currentUsers = sortedUsers.slice(firstUserIndex, lastUserIndex);
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
 
   const dispatch = useDispatch();
 
@@ -84,7 +92,7 @@ function UsersPanel () {
             <span className={`${styles['users-panel__column-title']} ${styles['users-panel__column-title--image']}`}>Изображения</span>
           </li>
           {
-            sortedUsers.map((item, index) => {
+            currentUsers.map((item, index) => {
               const {id, email, user, role, organization} = item;
 
               return (
@@ -145,11 +153,18 @@ function UsersPanel () {
             })
           }
         </ul>
-        <Button
-          text={'Создать пользователя'}
-          modificator={'add-user'}
-          onClick={onAddUserClickHandler}
-        />
+        <div className={styles['users-panel__controls']}>
+          <Pagination
+            usersPerPage={USERS_PER_PAGE}
+            totalUsers={users.length}
+            paginate={paginate}
+          />
+          <Button
+            text={'Создать пользователя'}
+            modificator={'add-user'}
+            onClick={onAddUserClickHandler}
+          />
+        </div>
       </div>
     </section>
   );

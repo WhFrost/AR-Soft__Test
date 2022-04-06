@@ -32,17 +32,15 @@
 }
 
 .users-panel__column-title {
-  display: block;
-
-  color: #1f1e25;
-  text-decoration: none;
-
   &:first-child {
     grid-column: 2/3;
   }
 
   &:not(&--image):hover {
     font-weight: 500;
+    color: #0044ff;
+
+    opacity: 0.8;
   }
   &:not(&--image):active {
     opacity: 0.5;
@@ -50,6 +48,7 @@
 
   &--active {
     font-weight: 700;
+    color: black;
 
     cursor: default;
 
@@ -67,4 +66,10 @@
 
 .users-panel__edit-wrapper {
   justify-self: end;
+}
+
+.users-panel__controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

@@ -41,3 +41,5 @@ export const SORT_TYPE = [
     value: 'organization',
   },
 ];
+
+export const USERS_PER_PAGE = 4;

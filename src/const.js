@@ -18,3 +18,26 @@ export const USER_ROLE_TRANSLATE = {
   'ROLE_SUPERUSER': 'Суперпользователь',
   'ROLE_ADMIN': 'Администратор'
 };
+
+export const SORT_TYPE = [
+  {
+    name: 'Имя',
+    value: 'name',
+  },
+  {
+    name: 'Фамилия',
+    value: 'lastName',
+  },
+  {
+    name: 'E-mail',
+    value: 'email',
+  },
+  {
+    name: 'Роль',
+    value: 'role',
+  },
+  {
+    name: 'Организация',
+    value: 'organization',
+  },
+];

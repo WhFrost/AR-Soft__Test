@@ -28,8 +28,8 @@ export const Users = [
     active: true,
     user: {
       id: 2,
-      name: 'lupa',
-      lastName: 'pupa',
+      name: 'bar',
+      lastName: 'foo',
       birthDate: '2000-08-19T09:20:51.071'
     },
     role: {

@@ -9,6 +9,7 @@ const initialState = {
   removableUserId: null,
   isShowConfirmDeletePopup: false,
   isShowAddUserPopup: false,
+  sortingType: null,
 };
 
 export const userSlice = createSlice({
@@ -59,6 +60,9 @@ export const userSlice = createSlice({
       state.isEditionMode = false;
       state.isShowConfirmDeletePopup = false;
       state.isShowAddUserPopup = false;
+    },
+    setSortingType: (state, action) => {
+      state.sortingType = action.payload;
     }
   },
 });
@@ -71,6 +75,7 @@ export const selectEditionMode = (state) => state.user.isEditionMode;
 export const selectIsShowConfirmDeletePopup = (state) => state.user.isShowConfirmDeletePopup;
 export const selectRemovableUserId = (state) => state.user.removableUserId;
 export const selectIsShowAddUserPopup = (state) => state.user.isShowAddUserPopup;
+export const selectSortingType = (state) => state.user.sortingType;
 
 export const {
   getUsers,
@@ -83,7 +88,8 @@ export const {
   confirmDeletePopup,
   addUser,
   showAddUserPopup,
-  closeAllPopups
+  closeAllPopups,
+  setSortingType
 } = userSlice.actions;
 
 export default userSlice.reducer;

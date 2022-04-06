@@ -11,9 +11,12 @@ import {
   selectEditableUserId,
   selectEditionMode,
   showAddUserPopup,
-  closeAllPopups
+  closeAllPopups,
+  setSortingType,
+  selectSortingType,
 } from '../../store/userSlice';
-import {USER_ROLE_TRANSLATE} from '../../const';
+import {USER_ROLE_TRANSLATE, SORT_TYPE} from '../../const';
+import {sortingFunc} from '../../sort';
 import Button from '../button/button';
 import UserEditForm from '../user-edit-form/user-edit-form';
 
@@ -21,6 +24,10 @@ function UsersPanel () {
   const users = useSelector(selectUsers);
   const editableUserId = useSelector(selectEditableUserId);
   const isEditionMode = useSelector(selectEditionMode);
+  const sortingType = useSelector(selectSortingType);
+
+  const sortedUsers = users.slice().sort(sortingFunc(sortingType));
+
   const dispatch = useDispatch();
 
   const onEditClickHandler = (evt) => {
@@ -33,6 +40,10 @@ function UsersPanel () {
   };
   const onAddUserClickHandler = () => {
     dispatch(showAddUserPopup(true));
+  };
+  const onSortClickHandler = (evt) => {
+    evt.preventDefault();
+    dispatch(setSortingType(evt.target.dataset.sort));
   };
 
   useEffect(() => {
@@ -52,20 +63,32 @@ function UsersPanel () {
       <div className={`${globalStyles['container']} ${styles['users-panel__wrapper']}`}>
         <ul className={`${globalStyles['list']} ${styles['users-panel__list']}`}>
           <li className={`${styles['users-panel__item']} ${styles['users-panel__item--titles']}`}>
-            <a href='#' className={`${globalStyles['link']} ${styles['users-panel__column-title']}`}>Имя</a>
-            <a href='#' className={`${globalStyles['link']} ${styles['users-panel__column-title']}`}>Фамилия</a>
-            <a href='#' className={`${globalStyles['link']} ${styles['users-panel__column-title']}`}>E-mail</a>
-            <a href='#' className={`${globalStyles['link']} ${styles['users-panel__column-title']}`}>Роль</a>
-            <a href='#' className={`${globalStyles['link']} ${styles['users-panel__column-title']}`}>Организация</a>
-            <a href='#' className={`${globalStyles['link']} ${styles['users-panel__column-title']}`}>Изображения</a>
+            {
+              SORT_TYPE.map((item) => (
+                <a
+                  key={nanoid()}
+                  href='#'
+                  data-sort={item.value}
+                  className={`
+                  ${globalStyles['link']}
+                  ${styles['users-panel__column-title']}
+                  ${sortingType === item.value ? styles['users-panel__column-title--active'] : ''}
+                  `}
+                  disabled
+                  onClick={onSortClickHandler}
+                >
+                  {item.name}
+                </a>
+              ))
+            }
+            <span className={`${styles['users-panel__column-title']} ${styles['users-panel__column-title--image']}`}>Изображения</span>
           </li>
           {
-            users.map((item, index) => {
+            sortedUsers.map((item, index) => {
               const {id, email, user, role, organization} = item;
 
               return (
                 <li key={nanoid()} className={styles['users-panel__item']}>
-
                   {
                     isEditionMode && editableUserId === id
                       ?

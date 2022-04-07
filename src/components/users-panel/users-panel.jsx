@@ -40,13 +40,10 @@ function UsersPanel () {
   const currentUsers = sortedUsers.slice(firstUserIndex, lastUserIndex);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  // eslint-disable-next-line no-console
-  console.log(currentUserId);
-
   const dispatch = useDispatch();
 
   const getCurrentUserId = (evt) => {
-    dispatch(setCurrentUserId(Number(evt.target.id)));
+    dispatch(setCurrentUserId(currentUserId));
   };
   const onEditClickHandler = (evt) => {
     evt.preventDefault();

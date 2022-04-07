@@ -80,7 +80,7 @@ export const userSlice = createSlice({
 export const selectUsers = (state) => state.user.users;
 export const selectOrganizations = (state) => state.user.organizations;
 export const selectUsersRoles = (state) => state.user.usersRoles;
-export const selectCurrentUserId = (state) => state.user.currenUserId;
+export const selectCurrentUserId = (state) => state.user.currentUserId;
 export const selectUserImage = (state) => state.user.userImage;
 export const selectEditableUserId = (state) => state.user.editableUserId;
 export const selectEditionMode = (state) => state.user.isEditionMode;

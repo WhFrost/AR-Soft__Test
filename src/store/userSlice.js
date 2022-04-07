@@ -6,6 +6,7 @@ const initialState = {
   usersRoles: [],
   usersImages: [],
   editableUserId: null,
+  currentUserId: null,
   userImage: '',
   isEditionMode: false,
   removableUserId: null,
@@ -36,7 +37,8 @@ export const userSlice = createSlice({
       state.isShowConfirmDeletePopup = false;
       state.isShowAddUserPopup = false;
     },
-    getUserImage: (state, action) => {
+    setCurrentUserId: (state, action) => {
+      state.currentUserId = action.payload;
       state.userImage = state.usersImages.find((image) => image.id === action.payload).image;
     },
     resetEditableUserId: (state) => {
@@ -78,6 +80,7 @@ export const userSlice = createSlice({
 export const selectUsers = (state) => state.user.users;
 export const selectOrganizations = (state) => state.user.organizations;
 export const selectUsersRoles = (state) => state.user.usersRoles;
+export const selectCurrentUserId = (state) => state.user.currenUserId;
 export const selectUserImage = (state) => state.user.userImage;
 export const selectEditableUserId = (state) => state.user.editableUserId;
 export const selectEditionMode = (state) => state.user.isEditionMode;
@@ -92,7 +95,7 @@ export const {
   getUsersRoles,
   getUsersImages,
   setEditableUserId,
-  getUserImage,
+  setCurrentUserId,
   resetEditableUserId,
   updateUser,
   deleteUser,

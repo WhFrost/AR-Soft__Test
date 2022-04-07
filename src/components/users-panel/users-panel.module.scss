@@ -66,28 +66,22 @@
   justify-self: center;
 }
 
-.users-panel__download-link::before {
-  content: '';
-  position: absolute;
-  bottom: -10px;
-  left: -15px;
+.users-panel__download-link {
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: -15px;
 
-  width: 28px;
-  height: 28px;
+    width: 28px;
+    height: 28px;
 
-  background-color: transparent;
-  background-image: url('../../assets/img/download.png');
-  background-repeat: no-repeat;
-  background-size: cover;
-  border: none;
-  cursor: pointer;
-  opacity: 0.8;
-
-  &:hover {
-    opacity: 1;
-  }
-  &:active {
-    opacity: 0.5;
+    background-color: transparent;
+    background-image: url('../../assets/img/download.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    border: none;
+    opacity: 0.8;
   }
 }
 

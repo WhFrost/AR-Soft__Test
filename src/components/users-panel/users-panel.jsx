@@ -7,9 +7,10 @@ import {useSelector, useDispatch} from 'react-redux';
 import {
   selectUsers,
   setEditableUserId,
+  setCurrentUserId,
+  selectCurrentUserId,
   confirmDeletePopup,
   selectEditableUserId,
-  getUserImage,
   selectUserImage,
   selectEditionMode,
   showAddUserPopup,
@@ -26,12 +27,10 @@ import Pagination from '../pagination/pagination';
 function UsersPanel () {
   const users = useSelector(selectUsers);
   const editableUserId = useSelector(selectEditableUserId);
+  const currentUserId = useSelector(selectCurrentUserId);
   const isEditionMode = useSelector(selectEditionMode);
   const userImage = useSelector(selectUserImage);
   const sortingType = useSelector(selectSortingType);
-
-  // eslint-disable-next-line no-console
-  console.log(userImage);
 
   const sortedUsers = users.slice().sort(sortingFunc(sortingType));
 
@@ -41,10 +40,13 @@ function UsersPanel () {
   const currentUsers = sortedUsers.slice(firstUserIndex, lastUserIndex);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  // eslint-disable-next-line no-console
+  console.log(currentUserId);
+
   const dispatch = useDispatch();
 
-  const onDownloadClickHandler = (evt) => {
-    dispatch(getUserImage(Number(evt.target.id)));
+  const getCurrentUserId = (evt) => {
+    dispatch(setCurrentUserId(Number(evt.target.id)));
   };
   const onEditClickHandler = (evt) => {
     evt.preventDefault();
@@ -104,7 +106,7 @@ function UsersPanel () {
               const {id, email, user, role, organization} = item;
 
               return (
-                <li key={nanoid()} className={styles['users-panel__item']}>
+                <li key={nanoid()} className={styles['users-panel__item']} id={id}>
                   {
                     isEditionMode && editableUserId === id
                       ?
@@ -135,8 +137,9 @@ function UsersPanel () {
                             id={id}
                             className={`${globalStyles['link']} ${styles['users-panel__download-link']}`}
                             download
-                            onClick={onDownloadClickHandler}
+                            onMouseEnter={getCurrentUserId}
                           >
+                            <span className={globalStyles['visually-hidden']}>Загрузить изображение</span>
                           </a>
                         </div>
                         <div className={styles['users-panel__edit-wrapper']}>

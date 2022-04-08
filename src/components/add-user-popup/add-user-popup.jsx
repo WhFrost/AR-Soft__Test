@@ -21,56 +21,71 @@ function AddUserPopup() {
   const dispatch = useDispatch();
 
   const userId = users.length + 1;
-  const [userName, setUserName] = useState(null);
-  const [userLastName, setUserLastName] = useState(null);
-  const [userEmail, setUserEmail] = useState(null);
-  const [userPassword, setUserPassword] = useState(null);
-  const [userRole, setUserRole] = useState('default');
-  const [userOrganization, setUserOrganization] = useState('default');
-  const [userBirthday, setUserBirthday] = useState(null);
+  const [userName, setUserName] = useState('');
+  const [userLastName, setUserLastName] = useState('');
+  const [userEmail, setUserEmail] = useState('');
+  const [userPassword, setUserPassword] = useState('');
+  const [userRole, setUserRole] = useState('');
+  const [userOrganization, setUserOrganization] = useState('');
+  const [userBirthday, setUserBirthday] = useState('');
 
+  const [inputNameError, setInputNameError] = useState(false);
+  const [inputLastNameError, setInputLastNameError] = useState(false);
+  const [inputEmailError, setInputEmailError] = useState(false);
+  const [inputPasswordError, setInputPasswordError] = useState(false);
   const [inputRoleError, setInputRoleError] = useState(false);
   const [inputOrganizanionError, setInputOrganizationError] = useState(false);
+  const [inputBirthdayError, setInputBirthdayError] = useState(false);
 
-  const errorRoleInputClassName = inputRoleError ? `${styles['add-user-popup__input--role-error']}` : '';
-  const errorOrganizationInputClassName = inputOrganizanionError ? `${styles['add-user-popup__input--organization-error']}` : '';
+  const errorNameInputClassName = inputNameError ? `${styles['add-user-popup__input--error']}` : '';
+  const errorLastNameInputClassName = inputLastNameError ? `${styles['add-user-popup__input--error']}` : '';
+  const errorEmailInputClassName = inputEmailError ? `${styles['add-user-popup__input--error']}` : '';
+  const errorPasswordInputClassName = inputPasswordError ? `${styles['add-user-popup__input--error']}` : '';
+  const errorRoleInputClassName = inputRoleError ? `${styles['add-user-popup__input--error']}` : '';
+  const errorOrganizationInputClassName = inputOrganizanionError ? `${styles['add-user-popup__input--error']}` : '';
+  const errorBirthdayInputClassName = inputBirthdayError ? `${styles['add-user-popup__input--error']}` : '';
 
   const onChangeNameHandler = (evt) => {
+    setInputNameError(evt.target.value.length === 0);
     setUserName(evt.target.value);
   };
   const onChangeLastNameHandler = (evt) => {
+    setInputLastNameError(evt.target.length === 0);
     setUserLastName(evt.target.value);
   };
   const onChangeEmailHandler = (evt) => {
+    setInputEmailError(evt.target.value.length === 0);
     setUserEmail(evt.target.value);
   };
   const onChangePasswordHandler = (evt) => {
+    setInputPasswordError(evt.target.value.length === 0);
     setUserPassword(evt.target.value);
   };
   const onChangeRoleHandler = (evt) => {
+    setInputRoleError(evt.target.value === '');
     setUserRole(evt.target.value);
   };
   const onChangeOrganizationHandler = (evt) => {
+    setInputOrganizationError(evt.target.value === '');
     setUserOrganization(evt.target.value);
   };
   const onChangeBirthdayHandler = (evt) => {
+    setInputBirthdayError(evt.target.value.length === 0);
     setUserBirthday(evt.target.value);
   };
   const onCloseClickHandler = () => {
     dispatch(closeAllPopups());
   };
-  const onSubmitClickHandler = (evt) => {
-    evt.preventDefault();
-    setInputRoleError(userRole === null || userRole === 'default');
-    setInputOrganizationError(userOrganization === null || userOrganization === 'default');
+
+  const onSubmitClickHandler = () => {
     if (
-      userName !== null &&
-      userLastName !== null &&
-      userEmail !== null &&
-      userPassword !== null &&
-      (userRole !== null && userRole !== 'default') &&
-      (userOrganization !== null && userOrganization !== 'default') &&
-      userBirthday !== null
+      userName.length !== 0 &&
+      userLastName.length !== 0 &&
+      userEmail.length !== 0 &&
+      userPassword.length !== 0 &&
+      userRole !==0 &&
+      userOrganization !== 0 &&
+      userBirthday.length !== 0
     ) {
       const newUser = {
         id: userId,
@@ -94,6 +109,13 @@ function AddUserPopup() {
       };
       dispatch(addUser(newUser));
     }
+    setInputNameError(userName.length === 0);
+    setInputLastNameError(userLastName.length === 0);
+    setInputEmailError(userEmail.length === 0);
+    setInputPasswordError(userPassword.length === 0);
+    setInputRoleError(userRole === '');
+    setInputOrganizationError(userOrganization === '');
+    setInputBirthdayError(userBirthday.length === 0);
   };
 
   return (
@@ -110,7 +132,7 @@ function AddUserPopup() {
             <input
               type="text"
               id='name'
-              className={styles['add-user-popup__input']}
+              className={`${styles['add-user-popup__input']} ${errorNameInputClassName}`}
               autoFocus
               placeholder='Введите имя'
               required
@@ -124,7 +146,7 @@ function AddUserPopup() {
             <input
               type="text"
               id='lastname'
-              className={styles['add-user-popup__input']}
+              className={`${styles['add-user-popup__input']} ${errorLastNameInputClassName}`}
               placeholder='Введите фамилию'
               required
               onChange={onChangeLastNameHandler}
@@ -137,7 +159,7 @@ function AddUserPopup() {
             <input
               type="email"
               id='email'
-              className={styles['add-user-popup__input']}
+              className={`${styles['add-user-popup__input']} ${errorEmailInputClassName}`}
               placeholder='Введите e-mail'
               required
               onChange={onChangeEmailHandler}
@@ -150,7 +172,7 @@ function AddUserPopup() {
             <input
               type="password"
               id='password'
-              className={styles['add-user-popup__input']}
+              className={`${styles['add-user-popup__input']} ${errorPasswordInputClassName}`}
               placeholder='Введите пароль'
               required
               onChange={onChangePasswordHandler}
@@ -163,11 +185,16 @@ function AddUserPopup() {
             <select
               id='role'
               className={`${styles['add-user-popup__input']} ${errorRoleInputClassName}`}
-              value={userRole}
               required
               onChange={onChangeRoleHandler}
             >
-              <option value={'default'} disabled>Выберите роль</option>
+              <option
+                disabled
+                selected
+                className={styles['add-user-popup__input--disabled']}
+              >
+                  Выберите роль
+              </option>
               {
                 availablesRoles.map((item) => (
                   <option
@@ -187,11 +214,16 @@ function AddUserPopup() {
             <select
               id='organizations'
               className={`${styles['add-user-popup__input']} ${errorOrganizationInputClassName}`}
-              value={userOrganization}
               required
               onChange={onChangeOrganizationHandler}
             >
-              <option value={'default'} disabled>Выберите организацию</option>
+              <option
+                disabled
+                selected
+                className={styles['add-user-popup__input--disabled']}
+              >
+                  Выберите организацию
+              </option>
               {
                 availablesOrganizations.map((item) => (
                   <option
@@ -211,7 +243,7 @@ function AddUserPopup() {
             <input
               type="date"
               id='birthday'
-              className={styles['add-user-popup__input']}
+              className={`${styles['add-user-popup__input']} ${errorBirthdayInputClassName}`}
               required
               onChange={onChangeBirthdayHandler}
             />
@@ -223,6 +255,7 @@ function AddUserPopup() {
               onClick={onCloseClickHandler}
             />
             <Button
+              type={'submit'}
               text={'Сохранить'}
               modificator={'close-popup'}
               onClick={onSubmitClickHandler}

@@ -47,11 +47,12 @@
   background-color: white;
   border: 1px solid black;
 
-  &--role-error,
-  &--organization-error {
+  &--error,
+  &--error:invalid {
     color: red;
 
     border-color: red;
+    outline: red;
   }
 }
 

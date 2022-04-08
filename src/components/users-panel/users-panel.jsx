@@ -8,7 +8,6 @@ import {
   selectUsers,
   setEditableUserId,
   setCurrentUserId,
-  selectCurrentUserId,
   confirmDeletePopup,
   selectEditableUserId,
   selectUserImage,
@@ -27,7 +26,6 @@ import Pagination from '../pagination/pagination';
 function UsersPanel () {
   const users = useSelector(selectUsers);
   const editableUserId = useSelector(selectEditableUserId);
-  const currentUserId = useSelector(selectCurrentUserId);
   const isEditionMode = useSelector(selectEditionMode);
   const userImage = useSelector(selectUserImage);
   const sortingType = useSelector(selectSortingType);
@@ -43,7 +41,7 @@ function UsersPanel () {
   const dispatch = useDispatch();
 
   const getCurrentUserId = (evt) => {
-    dispatch(setCurrentUserId(currentUserId));
+    dispatch(setCurrentUserId(Number(evt.target.id)));
   };
   const onEditClickHandler = (evt) => {
     evt.preventDefault();

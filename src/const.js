@@ -43,3 +43,6 @@ export const SORT_TYPE = [
 ];
 
 export const USERS_PER_PAGE = 4;
+
+
+export const EMAIL_TEMPLATE = /^[\w\d%$:.-]+@\w+\.\w{2,5}$/;

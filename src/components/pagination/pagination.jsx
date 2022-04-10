@@ -14,6 +14,21 @@ function Pagination(props) {
   return (
     <ul className={`${globalStyles['list']} ${styles['pagination__list']}`}>
       {
+        currentPage > 1
+          ?
+          <li key={nanoid()} className={styles['pagination__item']}>
+            <a
+              href="#"
+              className={`${globalStyles['link']} ${styles['pagination__link']}`}
+              onClick={() => paginate(currentPage - 1)}
+            >
+          Назад
+            </a>
+          </li>
+          :
+          null
+      }
+      {
         pages.map((page, index) => (
           <li key={nanoid()} className={styles['pagination__item']}>
             <a
@@ -25,6 +40,21 @@ function Pagination(props) {
             </a>
           </li>
         ))
+      }
+      {
+        currentPage < pagesCount
+          ?
+          <li key={nanoid()} className={styles['pagination__item']}>
+            <a
+              href="#"
+              className={`${globalStyles['link']} ${styles['pagination__link']}`}
+              onClick={() => paginate(currentPage + 1)}
+            >
+          Вперед
+            </a>
+          </li>
+          :
+          null
       }
     </ul>
   );

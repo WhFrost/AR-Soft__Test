@@ -10,7 +10,7 @@ import {
   addUser,
   closeAllPopups
 } from '../../store/userSlice';
-import {USER_ROLE_TRANSLATE} from '../../const';
+import {USER_ROLE_TRANSLATE, EMAIL_TEMPLATE} from '../../const';
 import Button from '../button/button';
 
 function AddUserPopup() {
@@ -25,8 +25,8 @@ function AddUserPopup() {
   const [userLastName, setUserLastName] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
-  const [userRole, setUserRole] = useState('');
-  const [userOrganization, setUserOrganization] = useState('');
+  const [userRole, setUserRole] = useState('default');
+  const [userOrganization, setUserOrganization] = useState('default');
   const [userBirthday, setUserBirthday] = useState('');
 
   const [inputNameError, setInputNameError] = useState(false);
@@ -45,6 +45,8 @@ function AddUserPopup() {
   const errorOrganizationInputClassName = inputOrganizanionError ? `${styles['add-user-popup__input--error']}` : '';
   const errorBirthdayInputClassName = inputBirthdayError ? `${styles['add-user-popup__input--error']}` : '';
 
+  const emailValidate = (email) => EMAIL_TEMPLATE.test(email.toLocaleLowerCase());
+
   const onChangeNameHandler = (evt) => {
     setInputNameError(evt.target.value.length === 0);
     setUserName(evt.target.value);
@@ -54,7 +56,7 @@ function AddUserPopup() {
     setUserLastName(evt.target.value);
   };
   const onChangeEmailHandler = (evt) => {
-    setInputEmailError(evt.target.value.length === 0);
+    setInputEmailError(evt.target.value.length === 0 || !emailValidate(evt.target.value));
     setUserEmail(evt.target.value);
   };
   const onChangePasswordHandler = (evt) => {
@@ -77,14 +79,15 @@ function AddUserPopup() {
     dispatch(closeAllPopups());
   };
 
-  const onSubmitClickHandler = () => {
+  const onSubmitClickHandler = (evt) => {
+    evt.preventDefault();
     if (
       userName.length !== 0 &&
       userLastName.length !== 0 &&
-      userEmail.length !== 0 &&
+      (userEmail.length !== 0 && emailValidate(userEmail)) &&
       userPassword.length !== 0 &&
-      userRole !==0 &&
-      userOrganization !== 0 &&
+      (userRole !==0 && userRole !== 'default') &&
+      (userOrganization !== 0 && userOrganization !== 'default') &&
       userBirthday.length !== 0
     ) {
       const newUser = {
@@ -111,10 +114,10 @@ function AddUserPopup() {
     }
     setInputNameError(userName.length === 0);
     setInputLastNameError(userLastName.length === 0);
-    setInputEmailError(userEmail.length === 0);
+    setInputEmailError(userEmail.length === 0 || !emailValidate(userEmail) );
     setInputPasswordError(userPassword.length === 0);
-    setInputRoleError(userRole === '');
-    setInputOrganizationError(userOrganization === '');
+    setInputRoleError(userRole === '' || userRole === 'default');
+    setInputOrganizationError(userOrganization === '' || userOrganization === 'default');
     setInputBirthdayError(userBirthday.length === 0);
   };
 
@@ -124,7 +127,7 @@ function AddUserPopup() {
         <h3 className={`${globalStyles['title']} ${styles['add-user-popup__title']}`}>
           Создание пользователя
         </h3>
-        <form onSubmit={onSubmitClickHandler}>
+        <form action='#' onSubmit={onSubmitClickHandler}>
           <fieldset className={styles['add-user-popup__field-group']}>
             <label htmlFor="name" className={styles['add-user-popup__label']}>
             Имя:
@@ -187,10 +190,11 @@ function AddUserPopup() {
               className={`${styles['add-user-popup__input']} ${errorRoleInputClassName}`}
               required
               onChange={onChangeRoleHandler}
+              defaultValue={userRole}
             >
               <option
                 disabled
-                selected
+                value={'default'}
                 className={styles['add-user-popup__input--disabled']}
               >
                   Выберите роль
@@ -215,11 +219,12 @@ function AddUserPopup() {
               id='organizations'
               className={`${styles['add-user-popup__input']} ${errorOrganizationInputClassName}`}
               required
+              defaultValue='default'
               onChange={onChangeOrganizationHandler}
             >
               <option
                 disabled
-                selected
+                value={'default'}
                 className={styles['add-user-popup__input--disabled']}
               >
                   Выберите организацию
